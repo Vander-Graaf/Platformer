@@ -1,15 +1,33 @@
 const canvas = document.querySelector('canvas')
-canvas.getContext('2d')
+const c = canvas.getContext("2d")
+
+canvas.width = 1024
+canvas.height = 576
+
+c.fillRect(0, 0, canvas.width, canvas.height)
+
+class Sprite {
+    constructor(position) {
+        this.position = position
+    }
+
+    draw() {
+        c.fillRect = "red"
+        c.fillRect(this.position.x, this.position.y, 50, 150)
+    }
+
+}
+
+player.draw()
+
+const player = new Sprite({
+    x: 0,
+    y: 0
+})
 
 
 
-
-
-
-
-
-
-
+document.createElement('button')
 
 
 
