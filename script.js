@@ -1,7 +1,9 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 const jumpSound = new Audio('sounds/jump.mp3')
-jumpSound.volume = 0.1
+const xCoord = document.querySelector('.x-coordinate')
+const yCoord = document.querySelector('.y-coordinate')
+jumpSound.volume = 0.01
 
 canvas.width = 1024;
 canvas.height = 576;
@@ -11,18 +13,23 @@ CanvasPositionX = 0
 c.fillRect(0, 0, canvas.width, canvas.height)
 
 
-const gravity = 0.4
+const gravity = 1
+
+
+
+// игрок и его управление 
 
 class Sprite {
-    constructor({position, velocity}) {
+    constructor({position, velocity, height , width, color}) {
         this.position = position
         this.velocity = velocity
-        this.height = 100
-        this.width = 50
+        this.height = height
+        this.width = width
+        this.color = color 
     }
 
     draw() {
-        c.fillStyle = "green"
+        c.fillStyle = this.color
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 
@@ -31,10 +38,6 @@ class Sprite {
 
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
-
-
-       
-
 
 
         if (this.position.y + this.height + this.velocity.y >= canvas.height) {
@@ -51,24 +54,36 @@ class Sprite {
             keys.d.pressed = false
         } else if (this.position.x < 0) {
             keys.a.pressed = false
+        } else {
+          
         }
-   
-
 
     }
-
-
 }
 
 const player = new Sprite({
     position: {
     x: 400,
+    y: 100
+    },
+    velocity: {
+    x: 0,
+    y: 0
+    },
+    width: 50, height: 100, color: 'grey'
+})
+
+
+const Brick = new Sprite({
+    position: {
+    x: 200,
     y: 0
     },
     velocity: {
     x: 0,
     y: 0
-    }
+    },  
+    width: 50, height: 50, color: 'brown'
 })
 
 
@@ -94,12 +109,10 @@ function animate() {
     window.requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
     player.update()
+    Brick.update()
   
     player.velocity.x = 0
 
-
-
- 
 
     if (keys.a.pressed && lastkey === 'a') {
         player.velocity.x = -7
@@ -108,12 +121,14 @@ function animate() {
     }
 
     if (player.position.y + player.height >= 576 && keys.w.pressed) {
-        player.velocity.y = - 10
+        player.velocity.y = - 20
         jumpSound.pause()
         jumpSound.currentTime = 0;
         jumpSound.play()
         }
-   
+
+   yCoord.textContent = `y: ${player.position.y}`
+   xCoord.textContent = `x: ${player.position.x}`
 }
 
 animate()
@@ -151,7 +166,50 @@ window.addEventListener('keyup', (event) => {
     }
     })
 
+// игрок и его управление 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// блоки 
+class Block {
+    constructor ({position, height, width}) {
+        this.position = position
+        this.height = height
+        this. width = width 
+    }
+
+    draw() {
+        c.fillStyle = "red"
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+  
+}
+// блоки 
 
 
 
