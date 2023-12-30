@@ -8,12 +8,15 @@ jumpSound.volume = 0.01
 canvas.width = 1024;
 canvas.height = 576;
 CanvasPositionX = 0
+onGround = false
+
 
 
 c.fillRect(0, 0, canvas.width, canvas.height)
 
 
 const gravity = 1
+const acceleration = 1
 
 
 
@@ -52,11 +55,18 @@ class Sprite {
 
         if (this.position.x + this.width > canvas.width) {
             keys.d.pressed = false
+            player.velocity.x = 0
         } else if (this.position.x < 0) {
             keys.a.pressed = false
+            player.velocity.x = 0
         } else {
           
         }
+
+
+    
+
+
 
     }
 }
@@ -70,7 +80,7 @@ const player = new Sprite({
     x: 0,
     y: 0
     },
-    width: 50, height: 100, color: 'grey'
+    width: 50, height: 90, color: 'grey'
 })
 
 
@@ -85,6 +95,8 @@ const Brick = new Sprite({
     },  
     width: 50, height: 50, color: 'brown'
 })
+
+
 
 
 
@@ -112,15 +124,47 @@ function animate() {
     Brick.update()
   
     player.velocity.x = 0
+    Brick.velocity.x = 0
 
+  
+    
+   
 
     if (keys.a.pressed && lastkey === 'a') {
-        player.velocity.x = -7
+        player.velocity.x = -3
+        if (player.position.y + player.height > Brick.position.y && player.position.x < Brick.position.x + Brick.width && player.position.x + player.width > Brick.position.x ){
+            player.velocity.x = -1
+            Brick.velocity.x = -1
+        }
     } else if (keys.d.pressed  && lastkey === 'd') {
-        player.velocity.x = 7
+        player.velocity.x = 3
+        if (player.position.y + player.height > Brick.position.y && player.position.x + player.width + 3 > Brick.position.x && player.position.x + player.width  < Brick.position.x + Brick.width ){
+            player.velocity.x = 1
+            Brick.velocity.x = 1
+        }
+      
     }
 
-    if (player.position.y + player.height >= 576 && keys.w.pressed) {
+    if (player.position.y + player.height + player.velocity.y > Brick.position.y
+        && 
+        player.position.x + player.width  > Brick.position.x && player.position.x < Brick.position.x + Brick.width 
+
+        ){
+        onGround = true
+        player.velocity.y = 0
+    }
+    
+    if (player.position.y + player.height >= 576) {
+        onGround = true
+    }
+
+
+
+      
+ 
+
+    if (keys.w.pressed && onGround) {
+        onGround = false
         player.velocity.y = - 20
         jumpSound.pause()
         jumpSound.currentTime = 0;
@@ -156,9 +200,14 @@ window.addEventListener('keyup', (event) => {
  switch (event.key) {
     case 'd':
     keys.d.pressed = false
+    player.velocity.x = 0
+
+
  break
     case 'a':
     keys.a.pressed = false
+    player.velocity.x = 0
+    
  break
  case 'w':
     keys.w.pressed = false
@@ -197,10 +246,12 @@ window.addEventListener('keyup', (event) => {
 
 // блоки 
 class Block {
-    constructor ({position, height, width}) {
+    constructor({position, velocity, height , width, color}) {
         this.position = position
+        this.velocity = velocity
         this.height = height
-        this. width = width 
+        this.width = width
+        this.color = color 
     }
 
     draw() {
