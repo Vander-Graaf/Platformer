@@ -7,15 +7,15 @@
 
 const player = new Sprite({
     position: {
-    x: 20,
+    x: 300,
     y: 40
     },
     velocity: {
     x: 0,
     y: 0
     },
-    width: 50, height: 50, color: 'gold',
-    imageSrc: './img/mario.png'
+    width: 40, height: 50, color: 'gold',
+    imageSrc: ''
 })
 
 

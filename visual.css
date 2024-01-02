@@ -10,7 +10,7 @@ body {
 canvas {
     border: 20px solid rgb(0, 0, 0);
     border-bottom: 15px;
-    background-color: rgb(63, 115, 175);
+    background-color: rgb(133, 167, 219);
     z-index: 1;
 }
 

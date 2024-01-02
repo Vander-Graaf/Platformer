@@ -25,11 +25,11 @@ let acceleration = 1
 let index = 0
 let lives = 3
 let touchingWall = false
-let lastkey
+let lastkey = 'd'
 
 
 class Sprite {
-    constructor({position, velocity, height , width, color, imageSrc}) {
+    constructor({position, velocity, height , width, color, imageSrc, scale = 0.1}) {
         this.position = position
         this.velocity = velocity
         this.height = height
@@ -37,11 +37,55 @@ class Sprite {
         this.color = color 
         this.image = new Image()
         this.image.src = imageSrc
+        this.scale = scale
     }
 
     draw() {
-        c.drawImage(this.image, this.position.x, this.position.y, 50, 50)
-    
+
+    //  c.fillStyle = this.color
+    //  c.fillRect(this.position.x, this.position.y, this.width, this.height)
+
+
+      
+        c.drawImage(
+        this.image,
+        29,
+        0,
+        this.image.width / 1,
+        this.image.height / 1,
+        this.position.x,
+        this.position.y,
+        (this.image.width / 1) * this.scale,
+        (this.image.height / 1)* this.scale
+        
+        )
+
+        this.image.src = ''
+
+        if (player.velocity.y !== 0) {
+         onGround = false
+        }
+         
+ 
+        
+         if (this.velocity.x == 0 && this.velocity.y == 0 && onGround && lastkey == 'd') {
+         this.image.src = './img/idle-right.png'
+         } else if (this.velocity.x == 0 && this.velocity.y == 0 && onGround && lastkey == 'a') {
+         this.image.src = './img/idle-left.png'
+         }
+ 
+         if (onGround == false && lastkey == 'd' || player.velocity.y !== 0 && lastkey == 'd'){
+             this.image.src = './img/jump-right.png'
+         } else if (onGround == false && lastkey == 'a'|| player.velocity.y !== 0 && lastkey == 'a') {
+             this.image.src = './img/jump-left.png'
+         }
+ 
+         if (keys.d.pressed && lastkey == 'd' && onGround) {
+             this.image.src = './img/walk-right1.png'
+         } else if (keys.a.pressed && lastkey == 'a' && onGround) {
+           this.image.src = './img/walk-left1.png'
+         } 
+        
     }
 
     update() {
@@ -123,13 +167,15 @@ update() {
          player.position.x = this.position.x + 1 + this.width
          }   
         
-else if ( //Вверхняя коллизия
+else if ( //Верхняя коллизия
         player.position.y + player.height + player.velocity.y > this.position.y
         && this.position.y + this.height -1 > player.position.y + 15
         && player.position.x + player.width   > this.position.x 
         && player.position.x < this.position.x + this.width
         ){
+       
         onGround = true
+        player.position.y = this.position.y - player.height
         player.velocity.y = 0
         }
 
