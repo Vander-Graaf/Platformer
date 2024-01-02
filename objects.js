@@ -8,46 +8,35 @@
 const player = new Sprite({
     position: {
     x: 20,
-    y: 400
+    y: 40
     },
     velocity: {
     x: 0,
     y: 0
     },
-    width: 50, height: 90, color: 'gold'
+    width: 50, height: 50, color: 'gold',
+    imageSrc: './img/mario.png'
 })
 
 
 
-const Brick = new Sprite({
-    position: {
-    x: 500,
-    y: 480
-    },
-    velocity: {
-    x: 0,
-    y: 0
-    },  
-    width: 50, height: 70, color: 'black'
-})
 
 
-
-const Box = new Block({
+const Box1 = new Block({
     position: {
         x: 800,
-        y: 300
+        y: 370
         },
         velocity: {
         x: 0,
         y: 0
         },  
-        width: 50, height: 280, color: 'black'
+        width: 90, height: 280, color: 'black'
 })
 
 
 
-const floor1 = new Block({
+const Box2 = new Block({
     position: {
         x: -30,
         y: 550
@@ -56,11 +45,11 @@ const floor1 = new Block({
         x: 0,
         y: 0
         },  
-        width:240, height: 50, color: 'black'
+        width:370, height: 50, color: 'black'
 })
 
 
-const floor2 = new Block({
+const Box3 = new Block({
     position: {
         x: 410,
         y: 550
@@ -70,4 +59,45 @@ const floor2 = new Block({
         y: 0
         },  
         width:690, height: 50, color: 'black'
+})
+
+
+const Box4 = new Block({
+    position: {
+        x: 90,
+        y: 350
+        },
+        velocity: {
+        x: 0,
+        y: 0
+        },  
+        width:190, height: 50, color: 'black'
+})
+
+
+const Box5 = new Block({
+    position: {
+        x: 300,
+        y: 180
+        },
+        velocity: {
+        x: 0,
+        y: 0
+        },  
+        width:380, height: 50, color: 'black'
+})
+
+
+
+
+const Box6 = new Block({
+    position: {
+        x: 950,
+        y: 220
+        },
+        velocity: {
+        x: 0,
+        y: 0
+        },  
+        width:380, height: 50, color: 'black'
 })
