@@ -8,9 +8,7 @@ body {
 
 
 canvas {
-    border: 20px solid rgb(0, 0, 0);
-    border-bottom: 15px;
-    background-color: rgb(133, 167, 219);
+    background-color: rgb(90, 144, 245);
     z-index: 1;
 }
 
@@ -26,11 +24,36 @@ canvas {
     margin-top: 40px;
     margin-left: 40px;
     display: flex;
-   
     align-items: center;
-    color: rgb(255, 255, 255);
+    color: rgb(95, 95, 95);
     font-size: 40px;
 }
+
+.align-under-stats {
+    display: flex;
+   justify-content: center;
+   align-items: center;
+
+}
+
+.align-info {
+    margin-top: -500px;
+    display: flex;
+    position: absolute;
+    z-index: 50;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    font-size: 35px;
+    font-family: 'Common Pixel', sans-serif;
+}
+
+
+.coins, .score, .world, .time, .lives {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+
 
 
 .brick {
@@ -38,4 +61,18 @@ canvas {
     width: 50px;
     height: 50px;
     background-color: brown;
+}
+
+.align-floor {
+    position: absolute;
+    width: 1023px;
+    height: 90px;
+    z-index: 50;
+    background-image: url(img/floor.png);
+    background-size: 40px;
+    margin-top: 496px;
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0);
+    font-size: 40px;
 }
