@@ -37,6 +37,7 @@ canvas.width = 1024
 canvas.height = 576
 CanvasPositionX = 0
 onGround = false
+coinTime = true 
 
 
 
@@ -92,15 +93,21 @@ function animate() {
     window.requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
     
-
+    mountain1.update()
+    cloud1.update()
+    bush1.update()
+    luckyblock1.update()
     Box1.update()
     Box2.update()
     Box3.update()
     Box4.update()
     Box5.update()
     Box6.update()
+    Box7.update()
+    Box8.update()
     coin1.update()
     coin2.update()
+  
 
     player.update()
    
@@ -119,9 +126,9 @@ function animate() {
         }
   
     if (keys.a.pressed && lastkey === 'a' ) {
-        player.velocity.x = -4
+        player.velocity.x = -5
      } else if (keys.d.pressed  && lastkey === 'd' ) {
-         player.velocity.x = 4
+         player.velocity.x = 5
      }
 //Управление
 
