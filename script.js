@@ -7,9 +7,13 @@ const c = canvas.getContext('2d')
 const jumpSound = new Audio('sounds/jump.mp3')
 const bumpSound = new Audio('sounds/bump.wav')
 const coinSound = new Audio('sounds/coin.wav')
+const stompSound = new Audio('sounds/stomp.wav')
+const mariodieSound = new Audio('sounds/mariodie.wav')
 jumpSound.volume = 0.006
 bumpSound.volume = 0.09
 coinSound.volume = 0.09
+stompSound.volume = 0.09
+mariodieSound.volume = 0.09
 
 const xCoord = document.querySelector('.x-coordinate')
 const yCoord = document.querySelector('.y-coordinate')
@@ -22,7 +26,7 @@ const worldPick = document.querySelector('.world')
 const timePick = document.querySelector('.time')
 const livesPick = document.querySelector('.lives')
 let lives = 3
-let score = 0
+let score = 0             
 let time = 400
 let coins = 0
 
@@ -45,20 +49,10 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 
 
 const gravity = 0.4
-let acceleration = 1
+let acceleration = 5
 let index = 0
-
-
 let touchingWall = false
 let lastkey = 'd'
-
-
-
-
-
-
-
-
 
 
 
@@ -71,19 +65,7 @@ const keys = {
     },
     w: {
         pressed: false
-    },
-    arrowup: {
-        pressed: false 
-    },
-    arrowleft: {
-        pressed: false 
-    },
-    arrowright: {
-        pressed: false 
-    },
-    arrowdown: {
-        pressed: false 
-    },
+    }
 }
 
 
@@ -92,13 +74,14 @@ const keys = {
 function animate() {
     window.requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
-    
+ 
     mountain1.update()
     cloud1.update()
     bush1.update()
     luckyblock1.update()
+    floor.update()
     Box1.update()
-    Box2.update()
+   
     Box3.update()
     Box4.update()
     Box5.update()
@@ -107,6 +90,7 @@ function animate() {
     Box8.update()
     coin1.update()
     coin2.update()
+    gumba1.update()
   
 
     player.update()
@@ -114,9 +98,19 @@ function animate() {
   
 
     player.velocity.x = 0
+   
+
+   if (player.alive === false) {
+    setTimeout(() => {
+        player.alive = true
+        player.position.x = 300
+        player.position.y = 452
+    }, 3000);
+   }
 
 
 //Управление
+    if (player.alive) {
     if (keys.w.pressed && onGround) {
         onGround = false
         player.velocity.y = - 11
@@ -124,12 +118,18 @@ function animate() {
         jumpSound.currentTime = 0;
         jumpSound.play()
         }
+
+
+      
   
     if (keys.a.pressed && lastkey === 'a' ) {
-        player.velocity.x = -5
+        player.velocity.x = acceleration - acceleration - acceleration
      } else if (keys.d.pressed  && lastkey === 'd' ) {
-         player.velocity.x = 5
+         player.velocity.x = acceleration 
      }
+      
+    }
+
 //Управление
 
 
@@ -140,6 +140,8 @@ function animate() {
    yCoord.textContent = `y: ${player.position.y}`
    xCoord.textContent = `x: ${player.position.x}`
    yVelocity.textContent = `y-velocity: ${player.velocity.y}`
+ 
+  
    
 }
 
@@ -148,40 +150,28 @@ function animate() {
 
 
 window.addEventListener('keydown', (event) => {
- switch (event.key) {
-    case 'd':
+if (event.key === 'd' ||event.key ===  'D' ||event.key ===  'в' ||event.key ===  'В' ||event.key ===  'ArrowRight') {
     keys.d.pressed = true
     lastkey = 'd'
- break
-    case 'a':
+} else if (event.key === 'a' ||event.key ===  'A' ||event.key ===  'ф' ||event.key ===  'Ф'||event.key ===  'ArrowLeft') {
     keys.a.pressed = true
     lastkey = 'a'
- break
-    case 'w':
+} else if (event.key === 'w' ||event.key ===  'W' ||event.key ===  'ц' ||event.key ===  'Ц'||event.key ===  'ArrowUp') {
     keys.w.pressed = true 
- break
-
- 
 }
+console.log(event.key)
 })
 
 
 window.addEventListener('keyup', (event) => {
- switch (event.key) {
-    case 'd':
-    keys.d.pressed = false
-    player.velocity.x = 0
-
-
- break
-    case 'a':
-    keys.a.pressed = false
-    player.velocity.x = 0
-    
- break
- case 'w':
-    keys.w.pressed = false
- break
+    if (event.key === 'd' ||event.key ===  'D' ||event.key ===  'в' ||event.key ===  'В' ||event.key ===  'ArrowRight') {
+        keys.d.pressed = false
+        player.velocity.x = 0
+    } else if (event.key === 'a' ||event.key ===  'A' ||event.key ===  'ф' ||event.key ===  'Ф'||event.key ===  'ArrowLeft') {
+        keys.a.pressed = false
+        player.velocity.x = 0 
+    } else if (event.key === 'w' ||event.key ===  'W' ||event.key ===  'ц' ||event.key ===  'Ц'||event.key ===  'ArrowUp') {
+        keys.w.pressed = false
     }
     })
 

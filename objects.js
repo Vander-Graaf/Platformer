@@ -6,7 +6,7 @@ class Sprite {
     constructor({
         position, velocity, height , width, 
         color, imageSrc, scale = 0.079, framesMax = 1, 
-        type, framesHold = 4
+        type, framesHold = 4, alive = true
      }) {
         this.position = position
         this.velocity = velocity
@@ -21,6 +21,7 @@ class Sprite {
         this.framesCurrent = 0
         this.framesElapsed = 0
         this.framesHold = framesHold
+        this.alive = alive
     }
 
     draw() {
@@ -47,32 +48,47 @@ class Sprite {
          onGround = false
         }
          
- 
-        
+        if (player.alive === false){
+        player.image.src = './img/dead.png'
+        player.framesMax = 1
+        player.framesCurrent = 0
+        }
+
+     
+          if (player.alive) {
          if (this.velocity.x == 0 && this.velocity.y == 0 && onGround && lastkey == 'd') {
          this.framesMax = 1
+         this.framesElapsed = 0
+         this.framesCurrent = 0
          this.image.src = './img/idle-right.png'
          } else if (this.velocity.x == 0 && this.velocity.y == 0 && onGround && lastkey == 'a') {
          this.framesMax = 1
+         this.framesElapsed = 0
+         this.framesCurrent = 0
          this.image.src = './img/idle-left.png'
          }
  
          if (onGround == false && lastkey == 'd' || player.velocity.y !== 0 && lastkey == 'd'){
-            this.framesMax = 1
-             this.image.src = './img/jump-right.png'
+         this.framesMax = 1
+         this.framesElapsed = 0
+         this.framesCurrent = 0
+         this.image.src = './img/jump-right.png'
          } else if (onGround == false && lastkey == 'a'|| player.velocity.y !== 0 && lastkey == 'a') {
-            this.framesMax = 1
-             this.image.src = './img/jump-left.png'
+         this.framesMax = 1
+         this.framesElapsed = 0
+         this.framesCurrent = 0
+        this.image.src = './img/jump-left.png'
          }
  
          if (keys.d.pressed && lastkey == 'd' && onGround) {
-            this.framesMax = 3
-           this.image.src = './img/run-right.png'
+         this.framesMax = 3
+         this.image.src = './img/run-right.png'
              
          } else if (keys.a.pressed && lastkey == 'a' && onGround) {
-            this.framesMax = 3
-            this.image.src = './img/run-left.png'
+         this.framesMax = 3
+         this.image.src = './img/run-left.png'
          } 
+        }
         
     }
 
@@ -82,7 +98,7 @@ class Sprite {
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
-     
+        if (player.alive) {
         this.framesElapsed++
         if (this.framesElapsed % this.framesHold === 0) {
             if (this.framesCurrent < this.framesMax - 1) {
@@ -91,6 +107,7 @@ class Sprite {
                 this.framesCurrent = 0
             }
         } 
+       } 
       
         //Колизия с краем экрана
         if (this.position.y + this.height + this.velocity.y >= canvas.height) {
@@ -131,6 +148,162 @@ class Sprite {
 
 
 
+class Enemy {
+    constructor({
+        position, velocity, height , width, 
+        color, imageSrc, scale = 0.079, framesMax = 2, 
+        type, framesHold = 15, alive = true
+     }) {
+        this.position = position
+        this.velocity = velocity
+        this.height = height
+        this.width = width
+        this.color = color 
+        this.type = type 
+        this.image = new Image()
+        this.image.src = imageSrc
+        this.scale = scale
+        this.framesMax = framesMax
+        this.framesCurrent = 0
+        this.framesElapsed = 0
+        this.framesHold = framesHold
+        this.alive = alive
+    }
+
+    draw() {
+
+   // c.fillStyle = this.color
+   // c.fillRect(this.position.x, this.position.y, this.width, this.height)
+
+
+   c.drawImage(
+    this.image,
+    this.framesCurrent * (this.image.width / this.framesMax),
+    0,
+    this.image.width / this.framesMax,
+    this.image.height,
+    this.position.x,
+    this.position.y,
+    (this.image.width / this.framesMax) * this.scale,
+    this.image.height * this.scale,
+   )
+
+
+         
+if (this.alive) {
+if (player.alive) {
+    if (  // левая коллизия
+    player.position.y + player.height > this.position.y  
+    && this.position.y + this.height  > player.position.y + 15
+    && player.position.x  <= this.position.x 
+    && player.position.x + player.width >= this.position.x 
+    ){
+     lives -= 1
+     livesPick.innerHTML = `LIVES <div class="align-under-stats">${lives}</div>`
+     player.velocity.y = -13
+     player.alive = false
+     mariodieSound.pause()
+     mariodieSound.currentTime = 0;
+     mariodieSound.play()
+    }  
+ 
+ else if (   // правая коллизия
+         player.position.y + player.height > this.position.y 
+         && this.position.y + this.height > player.position.y + 15
+         && player.position.x < this.position.x + this.width 
+         && player.position.x + player.width   > this.position.x 
+         ){
+            lives -= 1
+            livesPick.innerHTML = `LIVES <div class="align-under-stats">${lives}</div>`
+            player.velocity.y = -13
+            player.alive = false
+            mariodieSound.pause()
+            mariodieSound.currentTime = 0;
+            mariodieSound.play()
+         }   
+        
+else if ( //Верхняя коллизия
+        player.position.y + player.height + player.velocity.y > this.position.y
+        && this.position.y + this.height -1 > player.position.y + 15
+        && player.position.x + player.width   > this.position.x 
+        && player.position.x < this.position.x + this.width
+        ){
+        player.velocity.y = -8
+        this.image.src = './img/stomped.png'
+        this.framesMax = 1
+        this.framesCurrent = 0
+        this.alive = false
+        stompSound.pause()
+        stompSound.currentTime = 0;
+        stompSound.play()
+        }
+
+        
+else if ( //Нижняя колизия
+        player.position.y + player.height + player.velocity.y > this.position.y
+        && this.position.y + this.height + 5 > player.position.y
+        && player.position.x + player.width   > this.position.x 
+        && player.position.x < this.position.x + this.width
+        && player.velocity.y < 0
+        ){
+            lives -= 1
+            livesPick.innerHTML = `LIVES <div class="align-under-stats">${lives}</div>`
+            player.velocity.y = -13
+            player.alive = false
+            mariodieSound.pause()
+            mariodieSound.currentTime = 0;
+            mariodieSound.play()
+        }
+    }
+}
+
+
+
+    if (this.alive == false) {
+        setInterval(() => {
+            this.image.src = ''
+        }, 700);
+    }
+ 
+    }
+
+
+
+    update() {
+        this.draw()
+
+        this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
+
+
+
+        this.framesElapsed++
+        if (this.framesElapsed % this.framesHold === 0) {
+            if (this.framesCurrent < this.framesMax - 1) {
+                this.framesCurrent++
+            } else {
+                this.framesCurrent = 0
+            }
+        } 
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -152,8 +325,8 @@ class Block {
     }
 
     draw() {
-        //c.fillStyle = this.color
-        //c.fillRect(this.position.x, this.position.y, this.width, this.height)
+        c.fillStyle = this.color
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
         
         c.drawImage(
         this.image,
@@ -165,8 +338,8 @@ class Block {
         this.position.y,
         (this.image.width / 1) * this.scale,
         (this.image.height / 1)* this.scale,
-        this.image.src = './img/brick.png'
         )
+        
  }
 
 
@@ -175,10 +348,9 @@ class Block {
 update() {
         this.draw()
 
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
+ 
 
-
+        if (player.alive) {
  if (  // левая коллизия
     player.position.y + player.height > this.position.y  
     && this.position.y + this.height  > player.position.y + 15
@@ -222,6 +394,56 @@ else if ( //Нижняя колизия
          bumpSound.currentTime = 0;
          bumpSound.play()
         }
+    }
+
+
+
+
+    if (  // левая коллизия
+    gumba1.position.y + gumba1.height > this.position.y  
+    && this.position.y + this.height  > gumba1.position.y + 15
+    && gumba1.position.x  <= this.position.x 
+    && gumba1.position.x + gumba1.width >= this.position.x 
+    ){
+        gumba1.velocity.x = 1
+    }  
+ 
+ else if (   // правая коллизия
+         gumba1.position.y + gumba1.height > this.position.y 
+         && this.position.y + this.height > gumba1.position.y + 15
+         && gumba1.position.x < this.position.x + this.width 
+         && gumba1.position.x + gumba1.width   > this.position.x 
+         ){
+            gumba1.velocity.x = -1
+         }   
+        
+else if ( //Верхняя коллизия
+        gumba1.position.y + gumba1.height + gumba1.velocity.y > this.position.y
+        && this.position.y + this.height -1 > gumba1.position.y + 15
+        && gumba1.position.x + gumba1.width   > this.position.x 
+        && gumba1.position.x < this.position.x + this.width
+        ){
+            onGround = true
+            gumba1.position.y = this.position.y - gumba1.height
+            gumba1.velocity.y = 0
+        }
+
+        
+else if ( //Нижняя колизия
+        player.position.y + player.height + player.velocity.y > this.position.y
+        && this.position.y + this.height + 5 > player.position.y
+        && player.position.x + player.width   > this.position.x 
+        && player.position.x < this.position.x + this.width
+        && player.velocity.y < 0
+        ){
+         player.position.y = this.position.y + 6 + this.height
+         player.velocity.y = 2
+         bumpSound.pause()
+         bumpSound.currentTime = 0;
+         bumpSound.play()
+        }
+
+       
     }
 }
 
@@ -298,8 +520,7 @@ class Background {
 update() {
         this.draw()
 
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
+
 
 
     }
@@ -401,7 +622,7 @@ update() {
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
    
-
+        if (player.alive) {
       if (  // левая коллизия
          player.position.y + player.height > this.position.y  
          && this.position.y + this.height  > player.position.y + 15
@@ -476,6 +697,10 @@ update() {
             player.velocity.y = 2
             }
          }  
+        }
+
+
+
     }
 }
 // Интерактивные обьекты
@@ -501,16 +726,53 @@ update() {
 
 const player = new Sprite({
     position: {
-    x: 300,
-    y: 452
+    x: 320,
+    y: 152
+    },
+    velocity: {
+    x: 0,
+    y: 0
+    },
+    width: 35, height: 38, color: 'gold',
+    imageSrc: ''
+})
+
+
+
+const gumba1 = new Enemy({
+    position: {
+    x: 700,
+    y: 450
     },
     velocity: {
     x: 0,
     y: 0
     },
     width: 30, height: 38, color: 'gold',
-    imageSrc: ''
+    imageSrc: './img/gumba-walk.png'
 })
+
+
+
+
+
+
+const floor = new Block({
+    position: {
+        x: 0,
+        y: 490
+        },
+        velocity: {
+        x: 0,
+        y: 0
+        },  
+        width:9070, height: 250, color: 'black',
+        imageSrc: './img/floor.png'
+})
+
+
+
+
 
 
 
@@ -518,41 +780,32 @@ const player = new Sprite({
 
 const Box1 = new Block({
     position: {
-        x: 100,
+        x: 160,
         y: 350
         },
         velocity: {
         x: 0,
         y: 0
         },  
-        width: 40, height: 40, color: 'black'
+        width: 40, height: 40, color: 'black',
+        imageSrc: './img/brick.png'
 })
 
 
 
-const Box2 = new Block({
-    position: {
-        x: -30,
-        y: 490
-        },
-        velocity: {
-        x: 0,
-        y: 0
-        },  
-        width:9070, height: 250, color: 'black'
-})
 
 
 const Box3 = new Block({
     position: {
-        x: 410,
-        y: 550
+        x: 200,
+        y: 350
         },
         velocity: {
         x: 0,
         y: 0
         },  
-        width:290, height: 50, color: 'black'
+        width: 40, height: 40, color: 'black',
+        imageSrc: './img/brick.png'
 })
 
 
@@ -565,7 +818,8 @@ const Box4 = new Block({
         x: 0,
         y: 0
         },  
-        width:40, height: 40, color: 'black'
+        width:40, height: 40, color: 'black',
+        imageSrc: './img/brick.png'
 })
 
 
@@ -578,7 +832,8 @@ const Box5 = new Block({
         x: 0,
         y: 0
         },  
-        width:40, height: 40, color: 'black'
+        width:40, height: 40, color: 'black',
+        imageSrc: './img/brick.png'
 })
 
 
@@ -593,7 +848,8 @@ const Box6 = new Block({
         x: 0,
         y: 0
         },  
-        width:40, height: 40, color: 'black'
+        width:40, height: 40, color: 'black',
+        imageSrc: './img/brick.png'
 })
 
 const Box7 = new Block({
@@ -605,20 +861,22 @@ const Box7 = new Block({
         x: 0,
         y: 0
         },  
-        width:40, height: 40, color: 'black'
+        width:40, height: 40, color: 'black',
+        imageSrc: './img/brick.png'
 })
 
 
 const Box8 = new Block({
     position: {
-        x: 320,
+        x: 240,
         y: 350
         },
         velocity: {
         x: 0,
         y: 0
         },  
-        width:40, height: 40, color: 'black'
+        width:40, height: 40, color: 'black',
+        imageSrc: './img/brick.png'
 })
 
 
