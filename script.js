@@ -42,6 +42,7 @@ coinTime = true;
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 const gravity = 0.4;
+
 let acceleration = 5;
 let index = 0;
 let touchingWall = false;

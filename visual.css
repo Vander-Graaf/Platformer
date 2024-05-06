@@ -25,7 +25,6 @@ canvas {
 .align-canvas {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .align-stats {
@@ -45,12 +44,13 @@ canvas {
 
 .align-info {
   width: 100%;
-  margin-top: -750px;
+  margin-top: 50px;
+
   display: flex;
   position: absolute;
   justify-content: center;
   z-index: 50;
-  align-items: center;
+
   color: rgb(255, 255, 255);
   font-size: 35px;
   font-family: "Common Pixel", sans-serif;
