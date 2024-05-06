@@ -298,88 +298,61 @@ class Block {
   update() {
     this.draw();
 
-    if (player.alive) {
-      if (
-        // левая коллизия
-        player.position.y + player.height > this.position.y &&
-        this.position.y + this.height > player.position.y + 15 &&
-        player.position.x <= this.position.x &&
-        player.position.x + player.width >= this.position.x
-      ) {
-        player.position.x = this.position.x - 1 - player.width;
-      } else if (
-        // правая коллизия
-        player.position.y + player.height > this.position.y &&
-        this.position.y + this.height > player.position.y + 15 &&
-        player.position.x < this.position.x + this.width &&
-        player.position.x + player.width > this.position.x
-      ) {
-        player.position.x = this.position.x + 1 + this.width;
-      } else if (
-        //Верхняя коллизия
-        player.position.y + player.height + player.velocity.y > this.position.y &&
-        this.position.y + this.height - 1 > player.position.y + 15 &&
-        player.position.x + player.width > this.position.x &&
-        player.position.x < this.position.x + this.width
-      ) {
+    // проверка коллизии игрока с блоками
+    checkCollision(
+      player,
+      this,
+
+      // левая коллизия
+      (first, second) => {
+        first.position.x = second.position.x - 1 - first.width;
+      },
+      // правая коллизия
+      (first, second) => {
+        first.position.x = second.position.x + 1 + second.width;
+      },
+      //верхняя коллизия
+      (first, second) => {
         onGround = true;
-        player.position.y = this.position.y - player.height;
-        player.velocity.y = 0;
-      } else if (
-        //Нижняя колизия
-        player.position.y + player.height + player.velocity.y > this.position.y &&
-        this.position.y + this.height + 5 > player.position.y &&
-        player.position.x + player.width > this.position.x &&
-        player.position.x < this.position.x + this.width &&
-        player.velocity.y < 0
-      ) {
-        player.position.y = this.position.y + 6 + this.height;
-        player.velocity.y = 2;
+        first.position.y = second.position.y - first.height;
+        first.velocity.y = 0;
+      },
+      //нижняя колизия
+      (first, second) => {
+        first.position.y = second.position.y + 6 + second.height;
+        first.velocity.y = 2;
         bumpSound.pause();
         bumpSound.currentTime = 0;
         bumpSound.play();
       }
-    }
+    );
 
-    if (
+    checkCollision(
+      gumba1,
+      this,
       // левая коллизия
-      gumba1.position.y + gumba1.height > this.position.y &&
-      this.position.y + this.height > gumba1.position.y - 25 &&
-      gumba1.position.x <= this.position.x &&
-      gumba1.position.x + gumba1.width >= this.position.x
-    ) {
-      gumba1.velocity.x = -1;
-    } else if (
+      (first, second) => {
+        first.position.x = second.position.x - 1 - first.width;
+      },
       // правая коллизия
-      gumba1.position.y + gumba1.height > this.position.y &&
-      this.position.y + this.height > gumba1.position.y + 15 &&
-      gumba1.position.x < this.position.x + this.width &&
-      gumba1.position.x + gumba1.width > this.position.x
-    ) {
-      gumba1.velocity.x = 1;
-    } else if (
-      //Верхняя коллизия
-      gumba1.position.y + gumba1.height + gumba1.velocity.y > this.position.y &&
-      this.position.y + this.height - 1 > gumba1.position.y + 15 &&
-      gumba1.position.x + gumba1.width > this.position.x &&
-      gumba1.position.x < this.position.x + this.width
-    ) {
-      GumbaOnGround = true;
-      gumba1.position.y = this.position.y - gumba1.height;
-      gumba1.velocity.y = 0;
-    } else if (
-      //Нижняя колизия
-      gumba1.position.y + player.height + player.velocity.y > this.position.y &&
-      this.position.y + this.height + 5 > player.position.y &&
-      gumba1.position.x + player.width > this.position.x &&
-      gumba1.position.x < this.position.x + this.width &&
-      gumba1.velocity.y < 0
-    ) {
-      gumba1.velocity.y = -5;
-      bumpSound.pause();
-      bumpSound.currentTime = 0;
-      bumpSound.play();
-    }
+      (first, second) => {
+        first.position.x = second.position.x + 1 + second.width;
+      },
+      //верхняя коллизия
+      (first, second) => {
+        GumbaOnGround = true;
+        first.position.y = second.position.y - first.height;
+        first.velocity.y = 0;
+      },
+      //нижняя колизия
+      (first, second) => {
+        first.position.y = second.position.y + 6 + second.height;
+        first.velocity.y = 2;
+        bumpSound.pause();
+        bumpSound.currentTime = 0;
+        bumpSound.play();
+      }
+    );
   }
 }
 

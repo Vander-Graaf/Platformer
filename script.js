@@ -33,7 +33,7 @@ setInterval(() => {
 }, 1000);
 
 canvas.width = 1390;
-canvas.height = 780;
+canvas.height = 850;
 CanvasPositionX = 0;
 onGround = false;
 GumbaOnGround = false;
@@ -94,7 +94,6 @@ function animate() {
   }
 
   Box1.update();
-
   Box3.update();
   Box4.update();
   Box5.update();
