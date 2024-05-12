@@ -6,52 +6,97 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.cdnfonts.com/css/common-pixel" rel="stylesheet" />
-    <title>Platformer</title>
+    <title></title>
 
-    <script src="script.js" defer></script>
-    <script src="Classes.js" defer></script>
-    <script src="objects.js" defer></script>
-    <script src="collisions.js" defer></script>
+    <script src="./Functions/collisions.js" defer></script>
+    <script src="./Functions/AnimAlg.js" defer></script>
+    <script src="./classes/Player/controls.js" defer></script>
+    <script src="./classes/Player/movement.js" defer></script>
+    <script src="./classes/Player/setCamera.js" defer></script>
+    <script src="./classes/Weapon/weaponLVL.js" defer></script>
+    <script src="interface.js" defer></script>
+    <script src="updateCanvas.js" defer></script>
+    <script src="Main.js" defer></script>
+
+    <script src="./classes/Player/player.js" defer></script>
+    <script src="./classes/Player/healthBar.js" defer></script>
+
+    <script src="./classes/Weapon/fireMissle.js" defer></script>
+    <script src="./classes/Weapon/Smite.js" defer></script>
+    <script src="./classes/Weapon/Spear.js" defer></script>
+
+    <script src="./classes/Enemy/enemy.js" defer></script>
+    <script src="./classes/Tiles/background.js" defer></script>
+    <script src="./classes/Tiles/block.js" defer></script>
+    <script src="./classes/Tiles/interact.js" defer></script>
+    <script src="./Objects/objects.js" defer></script>
   </head>
   <body>
+    <!--
+    <div class="build-tools">
+      <button class="add">+</button>
+      <button class="remove">-</button>
+
+      <div class="brick"><img src="./img/brick.png" width="50px" /></div>
+      <button class="close">x</button>
+    </div>
+-->
+
+    <div class="align-cards">
+      <div class="upgrade-cards">
+        <div class="main-text">Choose upgrade</div>
+        <div class="first-card">
+          <div class="content"><img class="content-image" src="" width="16" /></div>
+          <div class="title">None</div>
+          <div class="description">None</div>
+          <div class="rarity">None</div>
+          <div class="lvl-card">None</div>
+        </div>
+        <div class="second-card">
+          <div class="content"><img class="content-image" src="" width="128" /></div>
+          <div class="title"></div>
+          <div class="description">None</div>
+          <div class="rarity">None</div>
+          <div class="lvl-card">None</div>
+        </div>
+        <div class="third-card">
+          <div class="content"><img class="content-image" src="" width="56" /></div>
+          <div class="title">None</div>
+          <div class="description">None</div>
+          <div class="rarity">None</div>
+          <div class="lvl-card">None</div>
+        </div>
+      </div>
+    </div>
+
     <div class="align-canvas">
       <div class="align-info">
-        <div class="score">
-          SCORE
+        <div class="lvl">
+          LVL
+          <div class="align-under-stats">1</div>
+        </div>
+
+        <div class="exp">
+          EXP
           <div class="align-under-stats">0</div>
         </div>
 
-        <div class="coins">
-          COINS
+        <div class="health">
+          HEALTH
           <div class="align-under-stats">0</div>
-        </div>
-
-        <div class="world">
-          WORLD
-          <div class="align-under-stats">1 - 1</div>
         </div>
 
         <div class="time">
           TIME
           <div class="align-under-stats">400</div>
         </div>
-
         <div class="lives">
           LIVES
           <div class="align-under-stats">3</div>
         </div>
       </div>
 
-      <canvas>
-        <div class="align-stats">
-          <div class="coordinates">
-            <div class="x-coordinate"></div>
-            <div class="y-coordinate"></div>
-            <div class="x-velocity"></div>
-            <div class="y-velocity"></div>
-          </div>
-        </div>
-      </canvas>
+      <canvas> </canvas>
     </div>
   </body>
 </html>
