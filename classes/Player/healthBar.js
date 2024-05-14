@@ -46,8 +46,8 @@ class HealthBar {
 
   update() {
     this.draw();
-    this.position.x = player.position.x;
-    this.position.y = player.position.y + 60;
+    this.position.x = player.position.x + 6;
+    this.position.y = player.position.y + 80;
     this.width = player.health / 3;
   }
 }

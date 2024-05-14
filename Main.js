@@ -10,19 +10,31 @@ c.imageSmoothingEnabled = false;
 //const xVelocity = document.querySelector(".x-velocity");
 //const yVelocity = document.querySelector(".y-velocity");
 
-const expPick = document.querySelector(".exp");
-const lvlPick = document.querySelector(".lvl");
+let isPaused = false;
+function togglePause() {
+  isPaused = !isPaused;
+  if (isPaused) {
+    upgradeCards.style.display = "flex";
+  } else if (!isPaused) {
+    upgradeCards.style.display = "none";
+  }
+}
+
+const expPick = document.querySelector(".exp-value");
+const lvlPick = document.querySelector(".lvl-value");
 
 const healthPick = document.querySelector(".health");
-const timePick = document.querySelector(".time");
+const timePick = document.querySelector(".time-value");
 const livesPick = document.querySelector(".lives");
 let lives = 3;
 let score = 0;
 let time = 0;
 
 setInterval(() => {
-  time += 1;
-  timePick.innerHTML = `TIME <div class="align-under-stats">${time}</div>`;
+  if (!isPaused) {
+    time += 1;
+    timePick.textContent = time;
+  }
 }, 1000);
 
 canvas.width = 1390;
@@ -51,28 +63,28 @@ let lastkey = "d";
 let cameraX = 0;
 let cameraY = 0;
 
-let isPaused = false;
-function togglePause() {
-  isPaused = !isPaused;
-  if (isPaused) {
-    upgradeCards.style.display = "flex";
-  } else if (!isPaused) {
-    upgradeCards.style.display = "none";
-  }
-}
+const desiredFPS = 61;
+const frameDelay = 1000 / desiredFPS;
+let lastFrameTime = 0;
 
-function animate() {
+function animate(timestamp) {
   window.requestAnimationFrame(animate);
+  const elapsed = timestamp - lastFrameTime;
   if (!isPaused) {
-    c.clearRect(-15000, 0, canvas.width + 15000, canvas.height - 10000);
+    if (elapsed > frameDelay) {
+      lastFrameTime = timestamp;
+      c.imageSmoothingEnabled = false;
 
-    c.translate(-cameraX, -cameraY);
+      c.clearRect(-15000, 0, canvas.width + 15000, canvas.height - 10000);
 
-    updateCanvas();
+      c.translate(-cameraX, -cameraY);
 
-    SetCamera(player.position.x - 650, player.position.y - 320);
+      updateCanvas();
 
-    movement();
+      SetCamera(player.position.x - 650, player.position.y - 320);
+
+      movement();
+    }
   }
 }
 controls();

@@ -49,10 +49,10 @@ class Spear {
     //  this.image.height * this.scale
     //);
 
-    grade += 5;
+    grade += 1;
     drawImageRot(
       this.image,
-      player.position.x - 35,
+      player.position.x - 135,
       player.position.y + 20,
       this.width,
       this.height,
@@ -83,9 +83,9 @@ let spear = new Spear({
     x: 0,
     y: 0,
   },
-  width: 110,
-  height: 15,
-  imageSrc: "./img/PIKA.png",
+  width: 330,
+  height: 55,
+  imageSrc: "./img/spear.png",
   color: "black",
   scale: 1.8,
   framesMax: 1,
@@ -94,23 +94,23 @@ let spear = new Spear({
   alignY: 0,
 });
 
-function drawImageRot(img, x, y, width, height, deg) {
-  // Store the current context state (i.e. rotation, translation etc..)
-  c.save();
-
-  //Convert degrees to radian
-  var rad = (deg * Math.PI) / 180;
-
-  //Set the origin to the center of the image
-  c.translate(x + width / 2, y + height / 2);
-
-  //Rotate the canvas around the origin
-  c.rotate(rad);
-  //c.fillStyle = spear.color;
-  //c.fillRect((width / 2) * -1, (height / 2) * -1, width, height);
-  //draw the image
-  c.drawImage(img, (width / 2) * -1 - 55, (height / 2) * -1, width, height);
-
-  // Restore canvas state as saved from above
-  c.restore();
-}
+//function drawImageRot(img, x, y, width, height, deg) {
+//  // Store the current context state (i.e. rotation, translation etc..)
+//  c.save();
+//
+//  //Convert degrees to radian
+//  var rad = (deg * Math.PI) / 180;
+//
+//  //Set the origin to the center of the image
+//  c.translate(x + width / 2, y + height / 2);
+//
+//  //Rotate the canvas around the origin
+//  c.rotate(rad);
+//  //c.fillStyle = spear.color;
+//  //c.fillRect((width / 2) * -1, (height / 2) * -1, width, height);
+//  //draw the image
+//  c.drawImage(img, (width / 2) * -1 - 70, (height / 2) * -1, width, height);
+//
+//  // Restore canvas state as saved from above
+//  c.restore();
+//}

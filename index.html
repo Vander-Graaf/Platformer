@@ -24,6 +24,7 @@
     <script src="./classes/Weapon/fireMissle.js" defer></script>
     <script src="./classes/Weapon/Smite.js" defer></script>
     <script src="./classes/Weapon/Spear.js" defer></script>
+    <script src="./classes/Weapon/Scythe.js" defer></script>
 
     <script src="./classes/Enemy/enemy.js" defer></script>
     <script src="./classes/Tiles/background.js" defer></script>
@@ -72,28 +73,30 @@
     <div class="align-canvas">
       <div class="align-info">
         <div class="lvl">
-          LVL
-          <div class="align-under-stats">1</div>
+          <div class="align-under-stats lvl-value">lvl 1</div>
         </div>
 
         <div class="exp">
-          EXP
-          <div class="align-under-stats">0</div>
+          <div class="align-under-stats exp-value">xp: 0/50</div>
         </div>
 
+        <!--
         <div class="health">
           HEALTH
           <div class="align-under-stats">0</div>
         </div>
-
+-->
         <div class="time">
-          TIME
-          <div class="align-under-stats">400</div>
+          <img src="./img/sandClock.gif" width="128px" />
+          <div class="align-under-stats time-value">0</div>
         </div>
+
+        <!--
         <div class="lives">
           LIVES
           <div class="align-under-stats">3</div>
         </div>
+            -->
       </div>
 
       <canvas> </canvas>

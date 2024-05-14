@@ -51,10 +51,9 @@ class Enemy {
     this.position.y += this.velocity.y;
 
     if (!this.givenXP && this.health <= 0) {
-      this.position.x = -10000;
       this.alive = false;
       player.exp += Math.round((1 * time) / 5);
-      expPick.innerHTML = `EXP <div class="align-under-stats">${player.exp}</div>`;
+      expPick.textContent = `xp: ${player.exp}/${player.requiredXP}`;
       this.givenXP = true;
     }
 
@@ -139,7 +138,8 @@ class Enemy {
 }
 
 let skeletons = [];
-for (let i = 1; i <= 10; i++) {
+
+for (let i = 1; i <= 0; i++) {
   let skeleton = new Enemy({
     position: {
       x: i * 100 - 400,
@@ -156,7 +156,7 @@ for (let i = 1; i <= 10; i++) {
     scale: 1.6,
     givenXP: false,
     framesMax: 12,
-    framesHold: 4,
+    framesHold: 3,
     alignX: 8,
     alignY: 10,
     imageSrc: "./img/Skeleton enemy/Skeleton enemy.png",

@@ -1,6 +1,6 @@
 let weapons = [
   {
-    amount: 1,
+    amount: 0,
     damage: 1,
     title: "FireBall",
     description: "Small FireBall that piearce through the foes",
@@ -13,7 +13,7 @@ let weapons = [
 
   {
     amount: 1,
-    damage: 0.2,
+    damage: 50.2,
     title: "Smite",
     description: "Magic Smite that damages random enemy",
     color: "rgb(47, 187, 230)",
@@ -28,6 +28,18 @@ let weapons = [
     damage: 4,
     title: "Spear",
     description: "hueta karoche, ne beri",
+    color: "white",
+    rarity: "common",
+    rarityColor: "rgb(95, 186, 235)",
+    lvl: 0,
+    image: "./img/PIKA-upgrade.png",
+  },
+
+  {
+    amount: 0,
+    damage: 4,
+    title: "Scythe",
+    description: "",
     color: "white",
     rarity: "common",
     rarityColor: "rgb(95, 186, 235)",

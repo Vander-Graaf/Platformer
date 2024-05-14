@@ -46,8 +46,8 @@ class Sprite {
   }
 
   draw() {
-    //   c.fillStyle = this.color;
-    //   c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    //c.fillStyle = this.color;
+    //c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     Animation(this);
 
@@ -91,7 +91,7 @@ class Sprite {
       player.lvl += 1;
       player.requiredXP += player.requiredXP * 2;
       console.log(player.requiredXP);
-      lvlPick.innerHTML = `LVL <div class="align-under-stats">${player.lvl}</div>`;
+      lvlPick.textContent = `lvl ${player.lvl}`;
     }
 
     if (!player.health) {
@@ -108,7 +108,7 @@ class Sprite {
           player.alive = true;
 
           lives -= 1;
-          livesPick.innerHTML = `LIVES <div class="align-under-stats">${lives}</div>`;
+          //livesPick.innerHTML = `LIVES <div class="align-under-stats">${lives}</div>`;
           player.health = 100;
           player.position.x = 0;
           player.position.y = 0;
@@ -118,11 +118,9 @@ class Sprite {
       }
     }
 
-    healthPick.innerHTML = `HEALTH <div class="align-under-stats">${this.health}</div>`;
+    //healthPick.innerHTML = `HEALTH <div class="align-under-stats">${this.health}</div>`;
     if (!player.alive) {
       player.framesMax = 10;
-
-      this.alignX = 13;
 
       player.image.src = "./img/pngPlayer/_Death.png";
 
@@ -180,11 +178,11 @@ const player = new Sprite({
     x: 0,
     y: 0,
   },
-  width: 35,
-  height: 53,
+  width: 49,
+  height: 80,
   color: "black",
-
-  scale: 1.2,
+  framesHold: 4,
+  scale: 1.7,
   imageSrc: "",
   health: 100,
   exp: 0,

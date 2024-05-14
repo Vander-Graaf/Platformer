@@ -67,7 +67,7 @@ for (let i = 1; i <= 4500; i++) {
     framesMax: 3,
     framesCurrent: 1,
     framesCurrentColumn: 0,
-    scale: 0.5,
+    scale: 2.5,
   });
 
   if (randomTile < 0.1) {

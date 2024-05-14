@@ -40,7 +40,7 @@ class Background {
 
     c.drawImage(
       this.image,
-      this.framesCurrent * (this.image.width / this.framesMax) + 5,
+      this.framesCurrent * (this.image.width / this.framesMax),
       this.framesCurrentColumn * (this.image.height / this.framesMaxColumn),
 
       this.image.width / this.framesMax,

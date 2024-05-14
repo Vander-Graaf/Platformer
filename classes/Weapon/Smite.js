@@ -1,8 +1,14 @@
-let isSmiteOnCooldown = false;
+let isSmiteOnCooldown = true;
+
+setInterval(() => {
+  isSmiteOnCooldown = false;
+}, 2500);
 let randomIndex = 1;
+
 function ToggleSmiteCd() {
   isSmiteOnCooldown = !isSmiteOnCooldown;
 }
+
 class Smite {
   constructor({
     position,
@@ -39,8 +45,8 @@ class Smite {
   }
 
   draw() {
-    // c.fillStyle = this.color;
-    // c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    //c.fillStyle = this.color;
+    //c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     c.drawImage(
       this.image,
@@ -67,15 +73,23 @@ class Smite {
   update() {
     this.draw();
 
-    if (this.framesCurrent === 4 || !skeletons[randomIndex].alive) {
+    if (!isSmiteOnCooldown) {
       randomIndex = Math.floor(Math.random() * skeletons.length);
-      this.framesCurrent = 0;
+      if (skeletons[randomIndex]) {
+        this.framesCurrent = 0;
+        this.image.src = "./img/Smite.png";
+        isSmiteOnCooldown = true;
+      }
+
+      if (skeletons[randomIndex]) {
+        this.position.x = skeletons[randomIndex].position.x + 10;
+        this.position.y = skeletons[randomIndex].position.y - 30;
+        skeletons[randomIndex].health -= weapons[1].damage;
+      }
     }
 
-    if (skeletons[randomIndex].alive) {
-      this.position.x = skeletons[randomIndex].position.x + 10;
-      this.position.y = skeletons[randomIndex].position.y - 30;
-      skeletons[randomIndex].health -= 1;
+    if (this.framesCurrent === 4) {
+      this.image.src = "";
     }
   }
 }
@@ -93,11 +107,11 @@ for (let i = 1; i <= weapons[1].amount; i++) {
     },
     width: 22,
     height: 60,
-    imageSrc: "./img/Smite.png",
+    imageSrc: "",
     color: "blue",
     force: -0.0,
-    framesHold: 7,
-    scale: 1.4,
+    framesHold: 64,
+    scale: 2.0,
     framesMax: 5,
     alignX: 0,
     alignY: 0,
