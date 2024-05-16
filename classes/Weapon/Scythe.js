@@ -1,3 +1,5 @@
+let scytheRotation;
+
 class Scythe {
   constructor({
     position,
@@ -63,19 +65,34 @@ class Scythe {
     );
     // this.position.x = player.position.x;
     //this.position.y = player.position.y - 64;
-    this.position.x = this.velocity.x;
-    this.position.y = this.velocity.y;
+
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+
+    let maximumVelocity = 8;
 
     if (this.position.x < player.position.x) {
-      this.position.x += 5;
+      this.velocity.x += 0.2;
+      if (this.velocity.x > maximumVelocity) {
+        this.velocity.x = maximumVelocity;
+      }
     } else if (this.position.x > player.position.x) {
-      this.position.x -= 5;
+      this.velocity.x -= 0.2;
+      if (this.velocity.x < -maximumVelocity) {
+        this.velocity.x = -maximumVelocity;
+      }
     }
 
     if (this.position.y < player.position.y) {
-      this.position.y -= Math.random() * 1 - 1;
+      this.velocity.y += 0.2;
+      if (this.velocity.y > maximumVelocity) {
+        this.velocity.y = maximumVelocity;
+      }
     } else if (this.position.y > player.position.y) {
-      this.position.y -= Math.random() * 1;
+      this.velocity.y -= 0.2;
+      if (this.velocity.y < -maximumVelocity) {
+        this.velocity.y = -maximumVelocity;
+      }
     } else if (this.position.y === player.position.y) {
     }
 
@@ -126,6 +143,7 @@ function drawImageRot(img, x, y, width, height, deg) {
 
   //Rotate the canvas around the origin
   c.rotate(rad + grade);
+  scytheRotation = grade;
   //c.fillStyle = spear.color;
   //c.fillRect((width / 2) * -1, (height / 2) * -1, width, height);
   //draw the image
@@ -134,34 +152,44 @@ function drawImageRot(img, x, y, width, height, deg) {
   // Restore canvas state as saved from above
   c.restore();
 }
-
-const trailLength = 15;
+const trailLength = 20;
 
 const trailPositions = [];
+let trailSpacing = 1;
 
-let gradeScythe = 0;
+let gradeScythe = 0.1;
 function drawTrail() {
+  grade -= 0.15;
   for (let i = 0; i < trailPositions.length; i++) {
     c.save();
     c.translate(trailPositions[i].x, trailPositions[i].y);
 
-    const rotationAngle = (i * Math.PI) / 30;
-    grade -= 0.008;
-    c.rotate(rotationAngle + grade);
+    const rotationAngle = (i * Math.PI) / 30 + scytheRotation; // Calculate rotation angle
+    // Increment grade variable
+    c.rotate(rotationAngle); // Apply rotation
+    // 1 - 0.2 - i / trailLength
+    c.fillStyle = `rgba(94, 45, 122, ${0.2})`;
 
-    c.fillStyle = `rgba(82, 24, 100, ${0.1})`;
-    c.beginPath();
-    c.fillRect(0, -32, 15, 64);
-    c.fill();
-
+    c.fillRect(-5, -25, 9, 50);
     c.restore();
   }
 }
 
 function updateTrail(position) {
-  trailPositions.unshift(position);
+  // Add a position to the trailPositions array only if enough spacing has passed
+  if (trailPositions.length === 0 || distance(trailPositions[0], position) >= trailSpacing) {
+    trailPositions.unshift(position);
+  }
 
+  // If the trailPositions array is longer than the trail length, remove the last position
   if (trailPositions.length > trailLength) {
     trailPositions.pop();
   }
+}
+
+// Function to calculate the distance between two points
+function distance(p1, p2) {
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  return Math.sqrt(dx * dx + dy * dy);
 }

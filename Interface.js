@@ -32,7 +32,7 @@ function changeCardContent(title, description, rarity, lvl, imagesrc, id) {
   imagesrc.src = weapons[id].image;
 }
 
-changeCardContent(fTitle, fDescription, fRarity, flvl, fcontentImage, 2);
+changeCardContent(fTitle, fDescription, fRarity, flvl, fcontentImage, 3);
 changeCardContent(sTitle, sDescription, sRarity, slvl, scontentImage, 0);
 changeCardContent(tTitle, tDescription, tRarity, tlvl, tcontentImage, 1);
 

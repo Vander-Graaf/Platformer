@@ -91,9 +91,18 @@ class Enemy {
           this.framesCurrent = 0;
         }
       }
-    } else if (this.position.x > player.position.x) {
+    } else if (this.position.x - 5 > player.position.x) {
       this.position.x -= Math.random() * 1;
       this.image.src = "./img/Skeleton enemy/Skeleton enemy-left.png";
+      this.framesElapsed++;
+      if (this.framesElapsed % this.framesHold === 0) {
+        if (this.framesCurrent <= 12 && this.framesCurrent > 0) {
+          this.framesCurrent--;
+        } else {
+          this.framesCurrent = 11;
+        }
+      }
+    } else {
       this.framesElapsed++;
       if (this.framesElapsed % this.framesHold === 0) {
         if (this.framesCurrent <= 12 && this.framesCurrent > 0) {
@@ -134,12 +143,38 @@ class Enemy {
         }
       );
     }
+
+    checkCollision(
+      this,
+      scythe,
+      // левая коллизия
+      (first, second) => {
+        first.health -= weapons[3].damage;
+        console.log(first.health);
+      },
+
+      // правая коллизия
+      (first, second) => {
+        first.health -= weapons[3].damage;
+        console.log(first.health);
+      },
+      //верхняя коллизия
+      (first, second) => {
+        first.health -= weapons[3].damage;
+        console.log(first.health);
+      },
+      //нижняя колизия
+      (first, second) => {
+        first.health -= weapons[3].damage;
+        console.log(first.health);
+      }
+    );
   }
 }
 
 let skeletons = [];
 
-for (let i = 1; i <= 0; i++) {
+for (let i = 1; i <= 10; i++) {
   let skeleton = new Enemy({
     position: {
       x: i * 100 - 400,
